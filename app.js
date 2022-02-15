@@ -1,11 +1,3 @@
-// Array productos ---------------------------------------------------------------------------------------------------------------------------
-
-let productos = [
-    {id: 0, nombre: "Hamburgesa", precio: 990, imagen:"/images/hamburgesa.jpeg"},
-    {id: 1, nombre: "Lomito", precio: 800, imagen:"/images/lomito.jpeg"},
-    {id: 2, nombre: "Pizza", precio: 850, imagen:"/images/pizza.jpeg"},
-    {id: 3, nombre: "Pancho", precio: 500, imagen:"/images/pancho.webp"},
-]
 
 // variables globales -------------------------------------------------------------------------------------------------------------------------
 
@@ -19,7 +11,7 @@ function renderProductos(){
     productos.forEach((productos) => {
         productosElemento.innerHTML += `
         <div class="col">
-            <div class="card text-center h-100">
+            <div class="card text-center border-dark h-100">
                 <img src="${productos.imagen}" class="card-img-top" alt="${productos.nombre}">
                 <div class="card-body">
                     <h5 class="card-title">${productos.nombre}</h5>
@@ -32,6 +24,7 @@ function renderProductos(){
     });
 }
 
+
 renderProductos(); // crea una carta para cada producto encontrado en el array de productos
 
 // Agregar al carro --------------------------------------------------------------------------------------------------------------------------
@@ -41,8 +34,23 @@ let carrito = []; // array para guardar los productos seleccionados
 function agregarAlcarrito(id){
     let item = productos.find((producto) => producto.id == id) // busca en el array de productos por id
     carrito.push(item); // pushea el producto seleccionado al array carrito
+    localStorage.setItem('carritoLocal', JSON.stringify(carrito)); // guarda el carrito en el localStorage
+
     renderCarro(); // esta funcion crea por innetHtml un div para cada elemento para que se muestre en la pagina en el sector carrito
 }
+
+// Recuperar carro del local Storage -----------------------------------------------------------------------------------------------------------
+
+function recuperarCarro (){
+    let recuperar = JSON.parse(localStorage.getItem('carritoLocal')) // recupera el carrito guardado en el localStorage
+    if (recuperar){
+        recuperar.forEach(el => {
+            agregarAlcarrito(el.id)
+        })
+    }
+}
+
+recuperarCarro();
 
 // Render carro ------------------------------------------------------------------------------------------------------------------------------
 
@@ -63,7 +71,7 @@ function renderCarro(){
 // Total carro -------------------------------------------------------------------------------------------------------------------------------
 
 function totalCarro(id){
-    let suma = carrito.reduce((acumulador, elemento) => {return acumulador + elemento.precio}, 0);
+    let suma = carrito.reduce((acumulador, elemento) => {return acumulador + elemento.precio}, 0); 
     total.innerHTML = `
         <h4>Gracias por su compra!</h4>
         <h4 id="numeroTotal">
@@ -78,4 +86,6 @@ function limpiarCarro(){
     carritoElemento.innerHTML = "" // vacia el carrito
     total.innerHTML = ""; // vacia el total
     carrito = [] // vacia el carrito
+    localStorage.setItem('carritoLocal', JSON.stringify(carrito)); // guarda el carrito en el localStorage, en este caso lo limpia
 }
+

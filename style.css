@@ -5,18 +5,18 @@
     font-family: 'Roboto', sans-serif;
 }
 
-header {
+/* header {
     background-color: burlywood;
     background-repeat:no-repeat;
     background-size: cover;
     background-position: center;
-    height: 50px;
+    height: 70px;
     position: relative;
-}
+    border: 2px solid red;
+} */
 
 h1 {
     color: black;
-    text-align: center;
 }
 
 #carrito, #topCarrito, #totalCarrito{
@@ -29,3 +29,7 @@ h1 {
     color: green;
 }
 
+.navbar{
+    background-color: burlywood;
+    border: solid 1px black;
+}
