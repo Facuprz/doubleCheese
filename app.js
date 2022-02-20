@@ -3,6 +3,7 @@
 
 const productosElemento = document.getElementById("productos");
 const carritoElemento = document.getElementById("carrito");
+const cantidadCarrito = document.getElementById("contador");
 const total = document.getElementById("totalCarrito");
 
 // Render productos - evento onclick ----------------------------------------------------------------------------------------------------------
@@ -40,7 +41,6 @@ function renderProductos(){
     });
 }
 
-
 renderProductos(); // crea una carta para cada producto encontrado en el array de productos
 
 // Agregar al carro --------------------------------------------------------------------------------------------------------------------------
@@ -51,6 +51,8 @@ function agregarAlcarrito(id){
     let item = productos.find((producto) => producto.id == id) // busca en el array de productos por id
     carrito.push(item); // pushea el producto seleccionado al array carrito
     localStorage.setItem('carritoLocal', JSON.stringify(carrito)); // guarda el carrito en el localStorage
+
+    cantidadCarrito.innerText = carrito.reduce((acumulador, elemento) => {return acumulador + elemento.cantidad}, 0); // contador carrito
 
     Toastify({ // libreria toastify , pop-up agregar al carro
         text: "Producto agregado al carro",
@@ -115,6 +117,7 @@ function renderCarro(){
 
 function totalCarro(id){
     let suma = carrito.reduce((acumulador, elemento) => {return acumulador + elemento.precio}, 0); 
+    
     /*
     total.innerHTML = `
         <h4>Gracias por su compra!</h4>
@@ -164,7 +167,8 @@ function totalCarro(id){
 // Limpiar carro -------------------------------------------------------------------------------------------------------------------------------
 
 function limpiarCarro(){
-    carritoElemento.innerHTML = "" // vacia el carrito
+    carritoElemento.innerHTML = ""; // vacia el carrito
+    cantidadCarrito.innerText = ""; // vacia el contador 
     total.innerHTML = ""; // vacia el total
     carrito = [] // vacia el carrito
     localStorage.setItem('carritoLocal', JSON.stringify(carrito)); // guarda el carrito en el localStorage, en este caso lo limpia

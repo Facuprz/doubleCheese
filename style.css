@@ -33,3 +33,9 @@ h1 {
     background-color: burlywood;
     border: solid 1px black;
 }
+.footer{
+    background-color: burlywood;
+    border: solid 1px black;
+    margin-top: 15px;
+    text-align: center;
+}
