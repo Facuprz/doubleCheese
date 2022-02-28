@@ -1,109 +1,144 @@
+// Variables globales --------------------------------------------------------------
 
-// variables globales -------------------------------------------------------------------------------------------------------------------------
+let carrito = [];
 
-const productosElemento = document.getElementById("productos");
-const carritoElemento = document.getElementById("carrito");
-const cantidadCarrito = document.getElementById("contador");
-const total = document.getElementById("totalCarrito");
+const divRenderProductos = document.getElementById('productos');
+const divRenderCarrito = document.getElementById('carrito'); 
 
-// Render productos - evento onclick ----------------------------------------------------------------------------------------------------------
+const contadorCarrito = document.getElementById("contador");
+const totalCarrito = document.getElementById("totalCarrito");
 
-function renderProductos(){
-    /*
-    productos.forEach((productos) => {
-        productosElemento.innerHTML += `
-        <div class="col">
-            <div class="card text-center border-dark h-100">
-                <img src="${productos.imagen}" class="card-img-top" alt="${productos.nombre}">
-                <div class="card-body">
-                    <h5 class="card-title">${productos.nombre}</h5>
-                    <p>$${productos.precio}</p>
-                    <a href="#" class="btn btn-primary" onclick="agregarAlcarrito(${productos.id})">Agregar al carrito</a>
-                </div>
-            </div>
-        </div>
-        `;
-    });
-    */
-    productos.forEach(({id, nombre, precio, imagen}) => { // desestructuracion en parametros
-        productosElemento.innerHTML += `
-        <div class="col">
-            <div class="card text-center border-dark h-100">
-                <img src="${imagen}" class="card-img-top" alt="${nombre}">
-                <div class="card-body">
-                    <h5 class="card-title">${nombre}</h5>
-                    <p>$${precio}</p>
-                    <a href="#" class="btn btn-primary" onclick="agregarAlcarrito(${id})">Agregar al carrito</a>
-                </div>
-            </div>
-        </div>
-        `;
-    });
+// Funciones -----------------------------------------------------------------------
+
+/*
+function obtenerProductos (){
+    fetch('productos.json')
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+}
+*/
+
+async function obtenerProductos(){
+    const res = await fetch('productos.json')
+    const data = await res.json()
+
+    // const {productos} = data;
+    renderProductos(data);
 }
 
-renderProductos(); // crea una carta para cada producto encontrado en el array de productos
 
-// Agregar al carro --------------------------------------------------------------------------------------------------------------------------
+function renderProductos(array){
+    array.forEach(producto => {
+        // scripting - crea una carta para cada producto ---------------------------
 
-let carrito = []; // array para guardar los productos seleccionados
+        const divProducto = document.createElement('div');
+        divProducto.classList.add('col');
 
-function agregarAlcarrito(id){
-    let item = productos.find((producto) => producto.id == id) // busca en el array de productos por id
-    carrito.push(item); // pushea el producto seleccionado al array carrito
-    localStorage.setItem('carritoLocal', JSON.stringify(carrito)); // guarda el carrito en el localStorage
+        const divProducto2 = document.createElement('div');
+        divProducto2.classList.add('card');
+        divProducto2.classList.add('text-center');
+        divProducto2.classList.add('border-dark');
+        divProducto2.classList.add('h-100');
 
-    cantidadCarrito.innerText = carrito.reduce((acumulador, elemento) => {return acumulador + elemento.cantidad}, 0); // contador carrito
+        const img = document.createElement('img');
+        img.classList.add('card-img-top');
+        img.src = producto.imagen;
+        img.alt = producto.nombre;
 
-    Toastify({ // libreria toastify , pop-up agregar al carro
-        text: "Producto agregado al carro",
-        className: "info",
-        gravity: "bottom",
-        style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
-        }
-    }).showToast();
+        const divProducto3 = document.createElement('div');
+        divProducto3.classList.add('card-body');
 
-    renderCarro(); // esta funcion crea por innetHtml un div para cada elemento para que se muestre en la pagina en el sector carrito
-}
+        const nombre = document.createElement('h5')
+        nombre.classList.add('card-title');
+        nombre.textContent = producto.nombre;
 
-// Recuperar carro del local Storage -----------------------------------------------------------------------------------------------------------
+        const parrafo = document.createElement('p');
+        parrafo.textContent = "$" + producto.precio;
 
-function recuperarCarro (){
-    let recuperar = JSON.parse(localStorage.getItem('carritoLocal')) // recupera el carrito guardado en el localStorage
-    
-    /*
-    if (recuperar){
-        recuperar.forEach(el => {
-            agregarAlcarrito(el.id)
+        const btnAgregarAlCarrito = document.createElement('button')
+        btnAgregarAlCarrito.setAttribute('id', 'boton'+ producto.id);
+        btnAgregarAlCarrito.classList.add('btn')
+        btnAgregarAlCarrito.classList.add('btn-primary')
+        btnAgregarAlCarrito.textContent = "Agregar al carrito"
+
+        divProducto.appendChild(divProducto2);
+        divProducto2.appendChild(img);
+        divProducto2.appendChild(divProducto3);
+        divProducto3.appendChild(nombre);
+        divProducto3.appendChild(parrafo);
+        divProducto3.appendChild(btnAgregarAlCarrito);
+
+        divRenderProductos.appendChild(divProducto)
+
+        // agrega addEventListener a cada boton ------------------------------------
+
+        let btn = document.getElementById(`boton${producto.id}`)
+
+        btn.addEventListener('click',() => {
+            agregarAlcarrito(producto.id)
         })
+
+    })
+
+
+    function agregarAlcarrito (id){
+        // busca en el array de productos por id
+        let item = array.find((producto) => producto.id == id) 
+        
+        // pushea el producto seleccionado al array carrito
+        carrito.push(item); 
+        
+        // guarda el carrito en el localStorage
+        localStorage.setItem('carritoLocal', JSON.stringify(carrito)); 
+    
+        // contador carrito
+        contadorCarrito.innerText = carrito.reduce((acumulador, elemento) => {return acumulador + elemento.cantidad}, 0); 
+    
+        // libreria toastify , pop-up agregar al carro
+        Toastify({ 
+            text: "Producto agregado al carro",
+            className: "info",
+            gravity: "bottom",
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+        }).showToast();
+    
+         // crea por innetHtml un div para cada elemento para que se muestre en la pagina en el sector carrito
+        renderCarro();
     }
-    */
 
-    recuperar && recuperar.forEach(el => {agregarAlcarrito(el.id)}); // operador logico AND , es lo mismo que el if simple
+    function recuperarCarro (){
+        // recupera el carrito guardado en el localStorage
+        let recuperar = JSON.parse(localStorage.getItem('carritoLocal')) 
+        
+        /*
+        if (recuperar){
+            recuperar.forEach(el => {
+                agregarAlcarrito(el.id)
+            })
+        }
+        */
+        
+        // operador logico AND , es lo mismo que el if simple
+        recuperar && recuperar.forEach(el => {agregarAlcarrito(el.id)}); 
+    }
+
+    recuperarCarro();
+
 }
-
-recuperarCarro();
-
-// Render carro ------------------------------------------------------------------------------------------------------------------------------
 
 function renderCarro(){     
-    carritoElemento.innerHTML = "" // vacia el carrito
-    total.innerHTML = ""; // vacia el total
+    // vacia el carrito
+    divRenderCarrito.innerHTML = "" 
     
-    /*
-    carrito.forEach((item) => {
-        carritoElemento.innerHTML += `
-            <div class="itemCarro">    
-                <div>
-                    <h4>Producto: ${item.nombre} $${item.precio}</h4>
-                </div>
-            </div>
-        `;
-    });
-    */
+    // vacia el total
+    totalCarrito.innerHTML = ""; 
     
-    carrito.forEach(({nombre, precio}) => { // desestructuracion en parametros
-        carritoElemento.innerHTML += `
+    // desestructuracion en parametros
+    carrito.forEach(({nombre, precio}) => {
+        divRenderCarrito.innerHTML += `
             <div class="itemCarro">    
                 <div>
                     <h4>Producto: ${nombre} $${precio}</h4>
@@ -113,21 +148,25 @@ function renderCarro(){
     });
 }
 
-// Total carro -------------------------------------------------------------------------------------------------------------------------------
+function limpiarCarro(){
+    // vacia el carrito
+    divRenderCarrito.innerHTML = ""; 
+    // vacia el contador 
+    contadorCarrito.innerText = ""; 
+    // vacia el total
+    totalCarrito.innerHTML = ""; 
+    // vacia el carrito
+    carrito = [];
+    // guarda el carrito en el localStorage, en este caso lo limpia
+    localStorage.setItem('carritoLocal', JSON.stringify(carrito)); 
+}
 
-function totalCarro(id){
+
+function totalCarro(){
     let suma = carrito.reduce((acumulador, elemento) => {return acumulador + elemento.precio}, 0); 
     
-    /*
-    total.innerHTML = `
-        <h4>Gracias por su compra!</h4>
-        <h4 id="numeroTotal">
-            <b>El total es de: $ ${suma}</b>
-        </h4>
-    `;
-    */
-    
-    const swalWithBootstrapButtons = Swal.mixin({  // modal libreria sweet alert 2
+    // modal libreria sweet alert 2
+    const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success',
             cancelButton: 'btn btn-danger'
@@ -164,13 +203,4 @@ function totalCarro(id){
     })
 }
 
-// Limpiar carro -------------------------------------------------------------------------------------------------------------------------------
-
-function limpiarCarro(){
-    carritoElemento.innerHTML = ""; // vacia el carrito
-    cantidadCarrito.innerText = ""; // vacia el contador 
-    total.innerHTML = ""; // vacia el total
-    carrito = [] // vacia el carrito
-    localStorage.setItem('carritoLocal', JSON.stringify(carrito)); // guarda el carrito en el localStorage, en este caso lo limpia
-}
-
+obtenerProductos();

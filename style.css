@@ -19,6 +19,15 @@ h1 {
     color: black;
 }
 
+.navbar{
+    background-color: burlywood;
+    border: solid 2px black;
+}
+
+.list-group-item{
+    background-color: burlywood;
+}
+
 #carrito, #topCarrito, #totalCarrito{
     text-align: center;
     padding: 20px;
@@ -29,13 +38,10 @@ h1 {
     color: green;
 }
 
-.navbar{
-    background-color: burlywood;
-    border: solid 1px black;
-}
-.footer{
-    background-color: burlywood;
-    border: solid 1px black;
-    margin-top: 15px;
-    text-align: center;
+.botonCarro {
+    /* display: inline-block; */
+    /* text-align: center; */
+    /* vertical-align: middle; */
+    border: solid 2px black;
+    padding: 10px;
 }
