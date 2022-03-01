@@ -4,55 +4,83 @@
     "cantidad": 1,
     "nombre": "Hamburgesa",
     "precio": 990,
-    "imagen": "/images/hamburgesa.jpeg"
+    "imagen": "/images/hamburgesa.jpg"
     },
     {
     "id": 1,
     "cantidad": 1,
     "nombre": "Lomito",
-    "precio": 800,
-    "imagen": "/images/lomito.jpeg"
+    "precio": 850,
+    "imagen": "/images/lomito.jpg"
     },
     {
     "id": 2,
     "cantidad": 1,
     "nombre": "Pizza",
-    "precio": 850,
-    "imagen": "/images/pizza.jpeg"
+    "precio": 750,
+    "imagen": "/images/pizza.jpg"
     },
     {
     "id": 3,
     "cantidad": 1,
     "nombre": "Pancho",
     "precio": 500,
-    "imagen": "/images/pancho.webp"
+    "imagen": "/images/pancho.jpg"
     },
     {
     "id": 4,
     "cantidad": 1,
-    "nombre": "Cerveza",
-    "precio": 180,
-    "imagen": "/images/corona.jpeg"
+    "nombre": "Ramen",
+    "precio": 550,
+    "imagen": "/images/ramen.jpg"
     },
     {
     "id": 5,
     "cantidad": 1,
     "nombre": "Porcion de Papas",
-    "precio": 220,
-    "imagen": "/images/papas.png"
+    "precio": 320,
+    "imagen": "/images/papas.jpg"
     },
     {
     "id": 6,
     "cantidad": 1,
     "nombre": "Tacos",
     "precio": 700,
-    "imagen": "/images/tacos.jpeg"
+    "imagen": "/images/tacos.jpg"
     },
     {
     "id": 7,
     "cantidad": 1,
+    "nombre": "Ensalada",
+    "precio": 550,
+    "imagen": "/images/ensalada.jpg"
+    },
+    {
+    "id": 8,
+    "cantidad": 1,
+    "nombre": "Sushie",
+    "precio": 1550,
+    "imagen": "/images/sushie.jpg"
+    },
+    {
+    "id": 9,
+    "cantidad": 1,
+    "nombre": "Cerveza",
+    "precio": 350,
+    "imagen": "/images/cerveza.jpg"
+    },
+    {
+    "id": 10,
+    "cantidad": 1,
+    "nombre": "Gaseosa",
+    "precio": 250,
+    "imagen": "/images/gaseosa.jpg"
+    },
+    {
+    "id": 11,
+    "cantidad": 1,
     "nombre": "Algo dulce",
     "precio": 550,
-    "imagen": "/images/franui.jpeg"
+    "imagen": "/images/helado.jpg"
     }
 ]

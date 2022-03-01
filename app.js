@@ -97,11 +97,13 @@ function renderProductos(array){
     
         // libreria toastify , pop-up agregar al carro
         Toastify({ 
-            text: "Producto agregado al carro",
+            text: "Producto agregado al carrito",
             className: "info",
             gravity: "bottom",
+            duration: 700,
             style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                background: "linear-gradient(to right, #429f9e, #f05f3b)",
+                color: "#000000",
             }
         }).showToast();
     
@@ -137,13 +139,13 @@ function renderCarro(){
     totalCarrito.innerHTML = ""; 
     
     // desestructuracion en parametros
-    carrito.forEach(({nombre, precio}) => {
+    carrito.forEach(({nombre, precio, cantidad}) => {
         divRenderCarrito.innerHTML += `
-            <div class="itemCarro">    
-                <div>
-                    <h4>Producto: ${nombre} $${precio}</h4>
-                </div>
-            </div>
+        <tr>
+            <th scope="row">${cantidad}</th>
+            <td>${nombre}</td>
+            <td>$${precio}</td>
+        </tr>
         `;
     });
 }
