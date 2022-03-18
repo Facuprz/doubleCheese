@@ -10,23 +10,15 @@ const totalCarrito = document.getElementById("totalCarrito");
 
 // Funciones -----------------------------------------------------------------------
 
-/*
-function obtenerProductos (){
-    fetch('productos.json')
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err))
+async function obtenerProductos() {
+    try {
+        const res = await fetch ('/JS/productos.json')
+        const data = await res.json()
+        renderProductos(data);
+    } catch (error) {
+        console.log("Error: " + error);
+    }
 }
-*/
-
-async function obtenerProductos(){
-    const res = await fetch('productos.json')
-    const data = await res.json()
-
-    // const {productos} = data;
-    renderProductos(data);
-}
-
 
 function renderProductos(array){
     array.forEach(producto => {
@@ -85,16 +77,12 @@ function renderProductos(array){
     function agregarAlcarrito (id){
         // busca en el array de productos por id
         let item = array.find((producto) => producto.id == id) 
-        
         // pushea el producto seleccionado al array carrito
         carrito.push(item); 
-        
         // guarda el carrito en el localStorage
-        localStorage.setItem('carritoLocal', JSON.stringify(carrito)); 
-    
+        localStorage.setItem('carritoLocal', JSON.stringify(carrito));
         // contador carrito
         contadorCarrito.innerText = carrito.reduce((acumulador, elemento) => {return acumulador + elemento.cantidad}, 0); 
-    
         // libreria toastify , pop-up agregar al carro
         Toastify({ 
             text: "Producto agregado al carrito",
@@ -114,30 +102,18 @@ function renderProductos(array){
     function recuperarCarro (){
         // recupera el carrito guardado en el localStorage
         let recuperar = JSON.parse(localStorage.getItem('carritoLocal')) 
-        
-        /*
-        if (recuperar){
-            recuperar.forEach(el => {
-                agregarAlcarrito(el.id)
-            })
-        }
-        */
-        
         // operador logico AND , es lo mismo que el if simple
         recuperar && recuperar.forEach(el => {agregarAlcarrito(el.id)}); 
     }
 
     recuperarCarro();
-
 }
 
 function renderCarro(){     
     // vacia el carrito
     divRenderCarrito.innerHTML = "" 
-    
     // vacia el total
     totalCarrito.innerHTML = ""; 
-    
     // desestructuracion en parametros
     carrito.forEach(({nombre, precio, cantidad}) => {
         divRenderCarrito.innerHTML += `
