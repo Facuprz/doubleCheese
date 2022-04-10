@@ -12,7 +12,7 @@ const totalCarrito = document.getElementById("totalCarrito");
 
 async function obtenerProductos() {
     try {
-        const res = await fetch ('/JS/productos.json')
+        const res = await fetch ('./JS/productos.json')
         const data = await res.json()
         renderProductos(data);
     } catch (error) {
